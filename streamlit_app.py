@@ -24,6 +24,8 @@ for message in st.session_state.chat_history:
 
 if uploaded_file is not None:
     st.sidebar.success(f"File '{uploaded_file.name}' uploaded successfully!")
+    with open(uploaded_file.name, "wb") as f:
+        f.write(uploaded_file.getbuffer())
     
     # User input
     user_input = st.chat_input("Ask a question:", key="user_input")
