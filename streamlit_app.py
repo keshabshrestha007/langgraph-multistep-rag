@@ -43,12 +43,9 @@ if uploaded_file is not None:
             "uploaded_file_name": uploaded_file.name.split(".")[0]
         }
         
-        ai_message = st.write_stream(
-            message_chunk.content for message_chunk, _ in graph.stream(
-                graph_input, config=config, stream_mode="messages")
-            if isinstance(message_chunk, AIMessage))
+        result = graph.invoke(graph_input, config=config)
+        
+        st.chat_message("assistant").text(result["messages"][-1].content)
+        st.session_state.chat_history.append({"role":"assistant","content":result["messages"][-1].content})
 
-        st.session_state.chat_history.append({"role":"assistant","content":ai_message})
-
-    
         
