@@ -54,8 +54,13 @@ def question_rewriter(state:AgentState) -> AgentState:
         conversation = state["messages"][:-1]
         question = state["question"].content
         messages = [
-            SystemMessage(content="You are a helpful assisatant that rephrases the user's question into a standalone question optimized for retrieval.")
-
+            SystemMessage(content="You are a helpful assisatant that rephrases the user's question into a standalone question optimized for retrieval." \
+            "***constraint:***"
+            "- Keep the rephrased question concise and to the point."
+            "- Don't loose the meaning of the original question."
+            "- Do not add any additional information not present in the conversation."
+            "- Don't change the meaning of the question."
+            "- Ensure the rephrased question is syntactically and semantically correct.")
         ]
         messages.extend(conversation)
         messages.append(HumanMessage(content=question))
